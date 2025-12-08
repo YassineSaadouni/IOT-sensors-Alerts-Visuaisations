@@ -1,0 +1,619 @@
+{
+  "info": {
+    "name": "IoT Data Management API",
+    "description": "Collection complète pour tester toutes les API du projet IoT",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8000/api/health",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["api", "health"]
+        },
+        "description": "Vérifier l'état de santé de l'API et des services"
+      }
+    },
+    {
+      "name": "Alertes",
+      "item": [
+        {
+          "name": "Get All Alertes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/alertes?size=10",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "alertes"],
+              "query": [
+                {
+                  "key": "size",
+                  "value": "10",
+                  "description": "Nombre de résultats"
+                }
+              ]
+            },
+            "description": "Récupérer toutes les alertes"
+          }
+        },
+        {
+          "name": "Search Alertes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/alertes?q=CO2&size=10",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "alertes"],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "CO2",
+                  "description": "Recherche texte"
+                },
+                {
+                  "key": "size",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Filter by Severite",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/alertes?severite=haute&size=10",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "alertes"],
+              "query": [
+                {
+                  "key": "severite",
+                  "value": "haute",
+                  "description": "Filtrer par sévérité (haute/moyenne/faible)"
+                },
+                {
+                  "key": "size",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Filter by Statut",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/alertes?statut=non_resolue&size=10",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "alertes"],
+              "query": [
+                {
+                  "key": "statut",
+                  "value": "non_resolue",
+                  "description": "Filtrer par statut"
+                },
+                {
+                  "key": "size",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Filter by Batiment",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/alertes?batiment=Batiment A&size=10",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "alertes"],
+              "query": [
+                {
+                  "key": "batiment",
+                  "value": "Batiment A",
+                  "description": "Filtrer par bâtiment"
+                },
+                {
+                  "key": "size",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Alertes Statistics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/alertes/stats",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "alertes", "stats"]
+            },
+            "description": "Obtenir les statistiques des alertes"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Capteurs",
+      "item": [
+        {
+          "name": "Get All Capteurs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/capteurs?size=10",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "capteurs"],
+              "query": [
+                {
+                  "key": "size",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Filter by Type",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/capteurs?type=temperature&size=10",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "capteurs"],
+              "query": [
+                {
+                  "key": "type",
+                  "value": "temperature",
+                  "description": "Type de capteur"
+                },
+                {
+                  "key": "size",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Filter by Statut",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/capteurs?statut=actif&size=10",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "capteurs"],
+              "query": [
+                {
+                  "key": "statut",
+                  "value": "actif",
+                  "description": "Statut du capteur"
+                },
+                {
+                  "key": "size",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Capteurs Statistics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/capteurs/stats",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "capteurs", "stats"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Consommation",
+      "item": [
+        {
+          "name": "Get All Consommation",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/consommation?size=10",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "consommation"],
+              "query": [
+                {
+                  "key": "size",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Filter by Type Energie",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/consommation?type_energie=electricite&size=10",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "consommation"],
+              "query": [
+                {
+                  "key": "type_energie",
+                  "value": "electricite",
+                  "description": "Type d'énergie"
+                },
+                {
+                  "key": "size",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Filter by Batiment",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/consommation?batiment=Batiment A&size=10",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "consommation"],
+              "query": [
+                {
+                  "key": "batiment",
+                  "value": "Batiment A"
+                },
+                {
+                  "key": "size",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Consommation Statistics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/consommation/stats",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "consommation", "stats"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Occupation",
+      "item": [
+        {
+          "name": "Get All Occupation",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/occupation?size=10",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "occupation"],
+              "query": [
+                {
+                  "key": "size",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Filter by Type Salle",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/occupation?type_salle=conference&size=10",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "occupation"],
+              "query": [
+                {
+                  "key": "type_salle",
+                  "value": "conference",
+                  "description": "Type de salle"
+                },
+                {
+                  "key": "size",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Filter by Statut",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/occupation?statut=occupee&size=10",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "occupation"],
+              "query": [
+                {
+                  "key": "statut",
+                  "value": "occupee",
+                  "description": "Statut d'occupation"
+                },
+                {
+                  "key": "size",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Occupation Statistics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/occupation/stats",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "occupation", "stats"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Maintenance",
+      "item": [
+        {
+          "name": "Get All Maintenance",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/maintenance?size=10",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "maintenance"],
+              "query": [
+                {
+                  "key": "size",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Filter by Type Equipement",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/maintenance?type_equipement=CVC&size=10",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "maintenance"],
+              "query": [
+                {
+                  "key": "type_equipement",
+                  "value": "CVC",
+                  "description": "Type d'équipement"
+                },
+                {
+                  "key": "size",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Filter by Severite",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/maintenance?severite=critique&size=10",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "maintenance"],
+              "query": [
+                {
+                  "key": "severite",
+                  "value": "critique",
+                  "description": "Sévérité de la maintenance"
+                },
+                {
+                  "key": "size",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Maintenance Statistics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/maintenance/stats",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "maintenance", "stats"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Advanced Queries",
+      "item": [
+        {
+          "name": "Alertes avec Pagination",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/alertes?from=0&size=20&sort_by=timestamp&sort_order=desc",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "alertes"],
+              "query": [
+                {
+                  "key": "from",
+                  "value": "0",
+                  "description": "Offset"
+                },
+                {
+                  "key": "size",
+                  "value": "20",
+                  "description": "Nombre de résultats"
+                },
+                {
+                  "key": "sort_by",
+                  "value": "timestamp",
+                  "description": "Champ de tri"
+                },
+                {
+                  "key": "sort_order",
+                  "value": "desc",
+                  "description": "Ordre de tri (asc/desc)"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Multi-Filter Alertes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/alertes?severite=haute&statut=non_resolue&batiment=Batiment A",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "alertes"],
+              "query": [
+                {
+                  "key": "severite",
+                  "value": "haute"
+                },
+                {
+                  "key": "statut",
+                  "value": "non_resolue"
+                },
+                {
+                  "key": "batiment",
+                  "value": "Batiment A"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Search with Filters",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/capteurs?q=temperature&type=temperature&batiment=Batiment A",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "capteurs"],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "temperature",
+                  "description": "Recherche texte"
+                },
+                {
+                  "key": "type",
+                  "value": "temperature"
+                },
+                {
+                  "key": "batiment",
+                  "value": "Batiment A"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

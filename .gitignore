@@ -1,0 +1,197 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+*.log
+
+# Django
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+media/
+staticfiles/
+*.pot
+
+# Virtual Environment
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Angular
+angular-app/node_modules/
+angular-app/dist/
+angular-app/.angular/
+angular-app/tmp/
+angular-app/out-tsc/
+angular-app/bazel-out/
+angular-app/*.js
+angular-app/*.js.map
+
+# Angular compiled files
+angular-app/**/*.js
+angular-app/**/*.js.map
+!angular-app/e2e/**/*.js
+!angular-app/karma.conf.js
+!angular-app/protractor.conf.js
+
+# Angular cache
+angular-app/.angular/cache
+
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# Elasticsearch data
+elasticsearch-data/
+data/
+
+# Logstash
+logstash/sincedb/
+*.sincedb
+
+# Redis
+redis-data/
+dump.rdb
+
+# Docker
+docker-compose.override.yml
+.dockerignore
+
+# Environment files
+.env
+.env.local
+.env.*.local
+*.env
+
+# Secrets and credentials
+secrets/
+credentials/
+*.pem
+*.key
+*.crt
+*.p12
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Testing
+coverage/
+*.coverage
+.coverage.*
+.pytest_cache/
+.tox/
+htmlcov/
+.nyc_output/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.bak
+*.swp
+*~
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# Volume mounts (if using local volumes)
+volumes/
+
+# Backup files
+*.backup
+backup/
+
+# Cache files
+.cache/
+*.cache
+
+# Personal notes
+notes.txt
+TODO.txt
+NOTES.md
+
+# Large data files (keep samples only)
+# Uncomment if you don't want to commit large log files
+# Fichier_logs/*.json
+# Fichier_logs/*.csv
+# But keep .ndjson for Logstash
+# Fichier_logs/*.ndjson
+
+# Postman environment files (may contain tokens)
+*.postman_environment.json
+
+# Git merge files
+*.orig

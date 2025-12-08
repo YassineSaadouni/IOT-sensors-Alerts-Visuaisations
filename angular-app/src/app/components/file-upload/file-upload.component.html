@@ -1,0 +1,155 @@
+<div class="upload-container">
+  <div class="header">
+    <h1>Upload de Fichiers</h1>
+  </div>
+
+  <!-- Statistics Cards -->
+  <div class="stats-grid" *ngIf="stats">
+    <div class="stat-card">
+      <div class="stat-icon">📤</div>
+      <div class="stat-content">
+        <div class="stat-label">Total Uploads</div>
+        <div class="stat-value">{{ stats.total_uploads || 0 }}</div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">📊</div>
+      <div class="stat-content">
+        <div class="stat-label">Fichiers CSV</div>
+        <div class="stat-value">{{ stats.csv_count || 0 }}</div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">📄</div>
+      <div class="stat-content">
+        <div class="stat-label">Fichiers JSON</div>
+        <div class="stat-value">{{ stats.json_count || 0 }}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Upload Area -->
+  <div class="upload-section">
+    <div 
+      class="dropzone" 
+      [class.dragging]="isDragging"
+      [class.has-file]="selectedFile"
+      (dragover)="onDragOver($event)"
+      (dragleave)="onDragLeave($event)"
+      (drop)="onDrop($event)"
+    >
+      <div class="dropzone-content" *ngIf="!selectedFile">
+        <div class="dropzone-icon">📁</div>
+        <h3>Glissez-déposez votre fichier ici</h3>
+        <p>ou</p>
+        <label for="file-input" class="btn btn-primary">
+          Parcourir les fichiers
+        </label>
+        <input 
+          id="file-input" 
+          type="file" 
+          accept=".csv,.json" 
+          (change)="onFileSelected($event)"
+          style="display: none;"
+        />
+        <p class="file-types">Formats acceptés: CSV, JSON (Max 10MB)</p>
+      </div>
+
+      <div class="selected-file" *ngIf="selectedFile && !uploading">
+        <div class="file-info">
+          <span class="file-icon">{{ getFileIcon(selectedFile.name) }}</span>
+          <div class="file-details">
+            <div class="file-name">{{ selectedFile.name }}</div>
+            <div class="file-size">{{ formatFileSize(selectedFile.size) }}</div>
+          </div>
+          <button class="btn-remove" (click)="removeFile()">❌</button>
+        </div>
+        <button class="btn btn-success" (click)="uploadFile()">
+          📤 Uploader le fichier
+        </button>
+      </div>
+
+      <div class="upload-progress" *ngIf="uploading">
+        <div class="progress-icon">⏳</div>
+        <div class="progress-info">
+          <div class="progress-label">Upload en cours...</div>
+          <div class="progress-bar">
+            <div class="progress-bar-fill" [style.width.%]="uploadProgress"></div>
+          </div>
+          <div class="progress-percent">{{ uploadProgress }}%</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Success Message -->
+    <div class="alert alert-success" *ngIf="uploadSuccess">
+      ✅ Fichier uploadé avec succès!
+    </div>
+
+    <!-- Error Message -->
+    <div class="alert alert-error" *ngIf="uploadError">
+      ❌ {{ uploadError }}
+    </div>
+  </div>
+
+  <!-- Upload History -->
+  <div class="history-section">
+    <div class="section-header">
+      <h2>Historique des Uploads</h2>
+      <button class="btn btn-secondary" (click)="loadHistory()">
+        🔄 Rafraîchir
+      </button>
+    </div>
+
+    <div *ngIf="loadingHistory" class="loading-spinner">
+      <div class="spinner"></div>
+      <p>Chargement de l'historique...</p>
+    </div>
+
+    <div class="history-table" *ngIf="!loadingHistory && history.length > 0">
+      <table>
+        <thead>
+          <tr>
+            <th>Fichier</th>
+            <th>Type</th>
+            <th>Taille</th>
+            <th>Date</th>
+            <th>Statut</th>
+            <th>Enregistrements</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let upload of history">
+            <td class="file-name">
+              <span class="file-icon">{{ getFileIcon(upload.filename) }}</span>
+              {{ upload.filename }}
+            </td>
+            <td>
+              <span class="file-type-badge" [class]="upload.file_type">
+                {{ upload.file_type | uppercase }}
+              </span>
+            </td>
+            <td>{{ formatFileSize(upload.file_size) }}</td>
+            <td>{{ upload.timestamp | date:'dd/MM/yyyy HH:mm:ss' }}</td>
+            <td>
+              <span class="badge" [ngClass]="getStatusClass(upload.status)">
+                {{ upload.status }}
+              </span>
+            </td>
+            <td class="records-count">
+              {{ upload.records_count || '-' }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="empty-state" *ngIf="!loadingHistory && history.length === 0">
+      <div class="empty-icon">📭</div>
+      <h3>Aucun upload trouvé</h3>
+      <p>Uploadez votre premier fichier pour commencer</p>
+    </div>
+  </div>
+</div>

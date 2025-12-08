@@ -1,0 +1,146 @@
+<div class="container">
+  <div class="header">
+    <h1>📊 Dashboard IoT</h1>
+    <button class="btn btn-primary" (click)="refresh()">🔄 Actualiser</button>
+  </div>
+
+  <!-- Health Status -->
+  <div class="card" *ngIf="health">
+    <div class="health-status">
+      <div class="health-item">
+        <span class="label">Redis:</span>
+        <span [class]="'badge ' + (health.services.redis === 'connected' ? 'badge-success' : 'badge-danger')">
+          {{ health.services.redis }}
+        </span>
+      </div>
+      <div class="health-item">
+        <span class="label">Elasticsearch:</span>
+        <span [class]="'badge ' + (health.services.elasticsearch === 'connected' ? 'badge-success' : 'badge-danger')">
+          {{ health.services.elasticsearch }}
+        </span>
+      </div>
+      <div class="health-item">
+        <span class="label">File Redis:</span>
+        <span class="badge badge-info">{{ health.services.redis_queue_length }} messages</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div class="loading" *ngIf="loading">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Error -->
+  <div class="card" *ngIf="error">
+    <div class="alert alert-danger">{{ error }}</div>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="grid grid-4" *ngIf="stats && !loading">
+    <div class="stat-card blue">
+      <div class="stat-label">Total Documents</div>
+      <div class="stat-value">{{ stats.total_documents }}</div>
+    </div>
+
+    <div class="stat-card green">
+      <div class="stat-label">Fichiers JSON</div>
+      <div class="stat-value">
+        {{ getCountByFileType('json') }}
+      </div>
+    </div>
+
+    <div class="stat-card orange">
+      <div class="stat-label">Fichiers CSV</div>
+      <div class="stat-value">
+        {{ getCountByFileType('csv') }}
+      </div>
+    </div>
+
+    <div class="stat-card red">
+      <div class="stat-label">Sources</div>
+      <div class="stat-value">{{ stats.by_source_file.length }}</div>
+    </div>
+  </div>
+
+  <!-- Charts Section -->
+  <div class="grid grid-2" *ngIf="stats && !loading">
+    <!-- By File Type -->
+    <div class="card">
+      <div class="card-header">📁 Par Type de Fichier</div>
+      <div class="chart-container">
+        <div class="bar-chart">
+          <div *ngFor="let item of stats.by_file_type" class="bar-item">
+            <div class="bar-label">{{ item.key }}</div>
+            <div class="bar-wrapper">
+              <div class="bar" [style.width.%]="(item.count / stats.total_documents) * 100">
+                <span class="bar-value">{{ item.count }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- By Status -->
+    <div class="card">
+      <div class="card-header">📈 Par Statut</div>
+      <div class="chart-container">
+        <div class="bar-chart">
+          <div *ngFor="let item of stats.by_status" class="bar-item">
+            <div class="bar-label">{{ item.key }}</div>
+            <div class="bar-wrapper">
+              <div class="bar" [style.width.%]="(item.count / stats.total_documents) * 100"
+                   [class.bar-success]="item.key === 'active'"
+                   [class.bar-warning]="item.key === 'warning'"
+                   [class.bar-danger]="item.key === 'critical'">
+                <span class="bar-value">{{ item.count }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Source Files Table -->
+  <div class="card" *ngIf="stats && !loading">
+    <div class="card-header">📂 Fichiers Sources</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Fichier</th>
+          <th>Nombre de Documents</th>
+          <th>Pourcentage</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of stats.by_source_file">
+          <td>{{ item.key }}</td>
+          <td>{{ item.count }}</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" [style.width.%]="(item.count / stats.total_documents) * 100"></div>
+            </div>
+            {{ ((item.count / stats.total_documents) * 100).toFixed(1) }}%
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Timeline -->
+  <div class="card" *ngIf="stats && stats.upload_timeline && stats.upload_timeline.length > 0 && !loading">
+    <div class="card-header">📅 Timeline des Uploads</div>
+    <div class="timeline-chart">
+      <div *ngFor="let item of stats.upload_timeline" class="timeline-item">
+        <div class="timeline-date">{{ item.date | date:'short' }}</div>
+        <div class="timeline-bar-wrapper">
+          <div class="timeline-bar" [style.width.%]="getTimelineWidth(item.count)">
+            {{ item.count }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

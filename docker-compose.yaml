@@ -1,0 +1,123 @@
+version: '3.8'
+
+services:
+  # Redis
+  redis:
+    image: redis:7-alpine
+    container_name: redis_container
+    hostname: redis
+    ports:
+      - "6379:6379"
+    environment:
+      - REDIS_PASSWORD=redis_password_123  # Mot de passe sécurisé
+      - REDIS_PORT=6379
+      - REDIS_DATABASES=16
+      - REDIS_APPENDONLY=yes               # Persistence AOF
+      - REDIS_APPENDFSYNC=everysec
+      - REDIS_MAXMEMORY=256mb              # Limite mémoire
+      - REDIS_MAXMEMORY_POLICY=allkeys-lru # Politique LRU
+    volumes:
+      - redis_data:/data
+      - ./redis/redis.conf:/redis/redis.conf
+      - ./redis/init:/docker-entrypoint-initdb.d
+    command: ["redis-server", "/redis/redis.conf"]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    networks:
+      - app_network
+
+  
+  # ElasticSearch
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.9.0
+    container_name: elasticsearch_container
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ports:
+      - "9200:9200"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    restart: unless-stopped
+    networks:
+      - app_network
+
+  # Logstash
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.9.0
+    container_name: logstash_container
+    ports:
+      - "5044:5044"
+      - "5000:5000/tcp"
+      - "5000:5000/udp"
+      - "9600:9600"
+    environment:
+      - LS_JAVA_OPTS=-Xmx256m -Xms256m
+    volumes:
+      - ./logstash/config:/usr/share/logstash/config
+      - ./logstash/pipeline:/usr/share/logstash/pipeline
+      - ./Fichier_logs:/usr/share/logstash/input_files
+    command: logstash -f /usr/share/logstash/pipeline/*.conf
+    depends_on:
+      - elasticsearch
+      - redis
+    restart: unless-stopped
+    networks:
+      - app_network
+
+  # Kibana
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.9.0
+    container_name: kibana_container
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
+    restart: unless-stopped
+    networks:
+      - app_network
+
+  # Django Backend (placeholder)
+  django:
+    image: python:3.11-slim
+    container_name: django_container
+    ports:
+      - "8000:8000"
+    environment:
+      - REDIS_URL=redis://:redis_password_123@redis:6379/0
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=redis_password_123
+      - ELASTICSEARCH_HOST=elasticsearch
+      - ELASTICSEARCH_PORT=9200
+      - DJANGO_SETTINGS_MODULE=config.settings
+    volumes:
+      - ./django_app:/app
+    working_dir: /app
+    command: >
+       sh -c "pip install --no-cache-dir -r requirements.txt && 
+              python manage.py migrate &&
+              python manage.py runserver 0.0.0.0:8000"
+    depends_on:
+      redis:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_started
+    restart: unless-stopped
+    networks:
+      - app_network
+
+volumes:
+  redis_data:
+  elasticsearch_data:
+
+networks:
+  app_network:
+    driver: bridge

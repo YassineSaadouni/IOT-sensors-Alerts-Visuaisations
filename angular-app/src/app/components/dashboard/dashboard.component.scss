@@ -1,0 +1,143 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.health-status {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+}
+
+.health-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.health-item .label {
+  font-weight: 600;
+  color: #666;
+}
+
+.alert {
+  padding: 15px;
+  border-radius: 5px;
+  margin: 20px 0;
+}
+
+.alert-danger {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* Charts */
+.chart-container {
+  padding: 20px 0;
+}
+
+.bar-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.bar-item {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 15px;
+  align-items: center;
+}
+
+.bar-label {
+  font-weight: 600;
+  color: #666;
+  text-transform: capitalize;
+}
+
+.bar-wrapper {
+  background: #ecf0f1;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.bar {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 5px;
+  font-weight: 600;
+  transition: width 0.5s ease;
+  min-width: 60px;
+}
+
+.bar-success {
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+}
+
+.bar-warning {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.bar-danger {
+  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+}
+
+.bar-value {
+  font-size: 14px;
+}
+
+/* Progress Bar */
+.progress-bar {
+  background: #ecf0f1;
+  height: 20px;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 5px;
+}
+
+.progress {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  height: 100%;
+  transition: width 0.5s ease;
+}
+
+/* Timeline */
+.timeline-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px 0;
+}
+
+.timeline-item {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 20px;
+  align-items: center;
+}
+
+.timeline-date {
+  font-weight: 600;
+  color: #666;
+  font-size: 14px;
+}
+
+.timeline-bar-wrapper {
+  background: #ecf0f1;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.timeline-bar {
+  background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 5px;
+  font-weight: 600;
+  transition: width 0.5s ease;
+  min-width: 50px;
+}

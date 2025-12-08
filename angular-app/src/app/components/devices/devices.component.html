@@ -1,0 +1,196 @@
+<div class="devices-container">
+  <div class="header">
+    <h1>Devices</h1>
+    <div class="actions">
+      <button class="btn btn-primary" (click)="loadDevices()">
+        <span>🔄</span> Rafraîchir
+      </button>
+      <button class="btn btn-success" (click)="exportToCSV()" [disabled]="devices.length === 0">
+        <span>📥</span> Exporter CSV
+      </button>
+    </div>
+  </div>
+
+  <!-- Filtres -->
+  <div class="filters-card">
+    <div class="filters-grid">
+      <div class="filter-group">
+        <label>Recherche</label>
+        <input 
+          type="text" 
+          [(ngModel)]="searchQuery" 
+          (keyup.enter)="search()"
+          placeholder="ID, location, driver..."
+          class="form-control"
+        />
+      </div>
+
+      <div class="filter-group">
+        <label>Type de fichier</label>
+        <select [(ngModel)]="selectedFileType" (change)="search()" class="form-control">
+          <option value="">Tous</option>
+          <option *ngFor="let type of fileTypes" [value]="type">{{ type | uppercase }}</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label>Statut</label>
+        <select [(ngModel)]="selectedStatus" (change)="search()" class="form-control">
+          <option value="">Tous</option>
+          <option *ngFor="let status of statuses" [value]="status">{{ status }}</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label>Fichier source</label>
+        <select [(ngModel)]="selectedSource" (change)="search()" class="form-control">
+          <option value="">Tous</option>
+          <option *ngFor="let source of sources" [value]="source">{{ source }}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="filters-actions">
+      <button class="btn btn-primary" (click)="search()">
+        🔍 Rechercher
+      </button>
+      <button class="btn btn-secondary" (click)="clearFilters()">
+        ❌ Réinitialiser
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="loading-spinner">
+    <div class="spinner"></div>
+    <p>Chargement des devices...</p>
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="error" class="alert alert-error">
+    {{ error }}
+  </div>
+
+  <!-- Results -->
+  <div *ngIf="!loading && !error" class="results-container">
+    <div class="results-header">
+      <p class="results-count">
+        <strong>{{ total }}</strong> device(s) trouvé(s)
+      </p>
+      <p class="results-page">
+        Page {{ page }} sur {{ getTotalPages() }}
+      </p>
+    </div>
+
+    <!-- Table -->
+    <div class="table-container">
+      <table class="devices-table">
+        <thead>
+          <tr>
+            <th (click)="changeSort('device_id')">
+              ID
+              <span class="sort-icon" *ngIf="sortField === 'device_id'">
+                {{ sortDirection === 'asc' ? '↑' : '↓' }}
+              </span>
+            </th>
+            <th (click)="changeSort('file_type')">
+              Type
+              <span class="sort-icon" *ngIf="sortField === 'file_type'">
+                {{ sortDirection === 'asc' ? '↑' : '↓' }}
+              </span>
+            </th>
+            <th (click)="changeSort('status')">
+              Statut
+              <span class="sort-icon" *ngIf="sortField === 'status'">
+                {{ sortDirection === 'asc' ? '↑' : '↓' }}
+              </span>
+            </th>
+            <th>Données</th>
+            <th (click)="changeSort('timestamp')">
+              Timestamp
+              <span class="sort-icon" *ngIf="sortField === 'timestamp'">
+                {{ sortDirection === 'asc' ? '↑' : '↓' }}
+              </span>
+            </th>
+            <th>Source</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let device of devices">
+            <td class="device-id">
+              {{ device.device_id || device.capteur_id || device.vehicule_id || '-' }}
+            </td>
+            <td>
+              <span class="file-type-badge" [class.json]="device.file_type === 'json'" [class.csv]="device.file_type === 'csv'">
+                {{ device.file_type | uppercase }}
+              </span>
+            </td>
+            <td>
+              <span class="badge" [ngClass]="getStatusClass(device.status || '')">
+                {{ device.status || '-' }}
+              </span>
+            </td>
+            <td class="device-data">
+              <!-- Sensor data -->
+              <div *ngIf="device.capteur_id" class="data-compact">
+                <span>📍 {{ device['location'] }}</span>
+                <span *ngIf="device['temperature']">🌡️ {{ device['temperature'] }}°C</span>
+                <span *ngIf="device['humidity']">💧 {{ device['humidity'] }}%</span>
+              </div>
+              <!-- Vehicle data -->
+              <div *ngIf="device.vehicule_id" class="data-compact">
+                <span>👤 {{ device['driver'] }}</span>
+                <span *ngIf="device['vitesse']">⚡ {{ device['vitesse'] }} km/h</span>
+                <span *ngIf="device['fuel_level']">⛽ {{ device['fuel_level'] }}%</span>
+              </div>
+            </td>
+            <td class="timestamp">
+              {{ device.timestamp | date:'dd/MM/yyyy HH:mm:ss' }}
+            </td>
+            <td class="source-file">
+              {{ device.source_file || '-' }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination" *ngIf="getTotalPages() > 1">
+      <button 
+        class="btn btn-secondary" 
+        (click)="changePage(page - 1)" 
+        [disabled]="page === 1"
+      >
+        ← Précédent
+      </button>
+      
+      <div class="page-numbers">
+        <button 
+          *ngFor="let pageNum of getPageNumbers()" 
+          class="btn" 
+          [class.btn-primary]="pageNum === page"
+          [class.btn-secondary]="pageNum !== page"
+          (click)="changePage(pageNum)"
+        >
+          {{ pageNum }}
+        </button>
+      </div>
+      
+      <button 
+        class="btn btn-secondary" 
+        (click)="changePage(page + 1)" 
+        [disabled]="page === getTotalPages()"
+      >
+        Suivant →
+      </button>
+    </div>
+  </div>
+
+  <!-- Empty state -->
+  <div *ngIf="!loading && !error && devices.length === 0" class="empty-state">
+    <div class="empty-icon">📭</div>
+    <h3>Aucun device trouvé</h3>
+    <p>Essayez de modifier vos filtres de recherche</p>
+  </div>
+</div>

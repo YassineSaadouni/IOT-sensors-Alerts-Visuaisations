@@ -1,0 +1,150 @@
+input {
+  redis {
+    host => "redis"
+    port => 6379
+    password => "redis_password_123"
+    key => "iot:data"
+    data_type => "list"
+    batch_count => 5
+    codec => plain {
+      charset => "UTF-8"
+    }
+    threads => 2
+  }
+}
+
+filter {
+  # Parse JSON du message principal
+  json {
+    source => "message"
+    target => "parsed"
+  }
+  
+  # Extraire les métadonnées du fichier uploadé
+  if [parsed][source_file] {
+    mutate {
+      add_field => {
+        "source_file" => "%{[parsed][source_file]}"
+        "file_type" => "%{[parsed][file_type]}"
+        "upload_timestamp" => "%{[parsed][upload_timestamp]}"
+      }
+    }
+  }
+  
+  # Extraire les données réelles (dans le champ 'data')
+  if [parsed][data] {
+    # Copier tous les champs de 'data' au niveau racine
+    ruby {
+      code => "
+        data = event.get('[parsed][data]')
+        if data.is_a?(Hash)
+          data.each do |key, value|
+            event.set(key, value)
+          end
+        end
+      "
+    }
+  }
+  
+  # Sinon, extraire directement depuis parsed (ancien format)
+  else if [parsed][device_id] {
+    mutate {
+      add_field => {
+        "device_id" => "%{[parsed][device_id]}"
+      }
+    }
+    
+    # Copier les autres champs
+    if [parsed][temperature] {
+      mutate {
+        add_field => { "temperature" => "%{[parsed][temperature]}" }
+        convert => { "temperature" => "float" }
+      }
+    }
+    
+    if [parsed][humidity] {
+      mutate {
+        add_field => { "humidity" => "%{[parsed][humidity]}" }
+        convert => { "humidity" => "float" }
+      }
+    }
+    
+    if [parsed][timestamp] {
+      mutate {
+        add_field => { "timestamp" => "%{[parsed][timestamp]}" }
+      }
+    }
+  }
+  
+  # Convertir les champs numériques
+  if [temperature] {
+    mutate {
+      convert => { "temperature" => "float" }
+    }
+  }
+  
+  if [humidity] {
+    mutate {
+      convert => { "humidity" => "float" }
+    }
+  }
+  
+  if [speed] {
+    mutate {
+      convert => { "speed" => "float" }
+    }
+  }
+  
+  if [latitude] {
+    mutate {
+      convert => { "latitude" => "float" }
+    }
+  }
+  
+  if [longitude] {
+    mutate {
+      convert => { "longitude" => "float" }
+    }
+  }
+  
+  if [fuel_level] {
+    mutate {
+      convert => { "fuel_level" => "integer" }
+    }
+  }
+  
+  if [battery_level] {
+    mutate {
+      convert => { "battery_level" => "integer" }
+    }
+  }
+  
+  # Parser le timestamp d'upload
+  if [upload_timestamp] {
+    date {
+      match => [ "upload_timestamp", "ISO8601" ]
+      target => "@timestamp"
+    }
+  }
+  
+  # Nettoyer les champs temporaires
+  mutate {
+    remove_field => ["parsed", "message"]
+  }
+}
+
+output {
+  # Debug détaillé dans les logs
+  stdout {
+    codec => rubydebug {
+      metadata => true
+    }
+  }
+  
+  # ElasticSearch
+  elasticsearch {
+    hosts => ["http://elasticsearch:9200"]
+    index => "iot-data-debug"
+    document_id => "%{device_id}-%{+ss.SSS}"
+  }
+}

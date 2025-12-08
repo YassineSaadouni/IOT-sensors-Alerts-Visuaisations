@@ -1,0 +1,189 @@
+<div class="sensors-container">
+  <div class="header">
+    <h1>Capteurs IoT</h1>
+    <button class="btn btn-primary" (click)="refresh()">
+      <span>🔄</span> Rafraîchir
+    </button>
+  </div>
+
+  <!-- Statistics Cards -->
+  <div class="stats-grid" *ngIf="statistics">
+    <div class="stat-card temp">
+      <div class="stat-icon">🌡️</div>
+      <div class="stat-content">
+        <div class="stat-label">Température Moyenne</div>
+        <div class="stat-value">{{ statistics.temperature_stats?.avg?.toFixed(1) || 0 }}°C</div>
+        <div class="stat-range">
+          Min: {{ statistics.temperature_stats?.min?.toFixed(1) || 0 }}°C | 
+          Max: {{ statistics.temperature_stats?.max?.toFixed(1) || 0 }}°C
+        </div>
+      </div>
+    </div>
+
+    <div class="stat-card humidity">
+      <div class="stat-icon">💧</div>
+      <div class="stat-content">
+        <div class="stat-label">Humidité Moyenne</div>
+        <div class="stat-value">{{ statistics.humidity_stats?.avg?.toFixed(1) || 0 }}%</div>
+        <div class="stat-range">
+          Min: {{ statistics.humidity_stats?.min?.toFixed(1) || 0 }}% | 
+          Max: {{ statistics.humidity_stats?.max?.toFixed(1) || 0 }}%
+        </div>
+      </div>
+    </div>
+
+    <div class="stat-card battery">
+      <div class="stat-icon">🔋</div>
+      <div class="stat-content">
+        <div class="stat-label">Batterie Moyenne</div>
+        <div class="stat-value">{{ statistics.battery_stats?.avg?.toFixed(1) || 0 }}%</div>
+        <div class="stat-range">
+          Min: {{ statistics.battery_stats?.min?.toFixed(1) || 0 }}% | 
+          Max: {{ statistics.battery_stats?.max?.toFixed(1) || 0 }}%
+        </div>
+      </div>
+    </div>
+
+    <div class="stat-card total">
+      <div class="stat-icon">📊</div>
+      <div class="stat-content">
+        <div class="stat-label">Total Capteurs</div>
+        <div class="stat-value">{{ total }}</div>
+        <div class="stat-range">
+          {{ statistics.by_status?.length || 0 }} statuts différents
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters-card">
+    <div class="filters-grid">
+      <div class="filter-group">
+        <label>Location</label>
+        <select [(ngModel)]="selectedLocation" (change)="applyFilters()" class="form-control">
+          <option value="">Toutes les locations</option>
+          <option *ngFor="let loc of locations" [value]="loc">{{ loc }}</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label>Statut</label>
+        <select [(ngModel)]="selectedStatus" (change)="applyFilters()" class="form-control">
+          <option value="">Tous les statuts</option>
+          <option *ngFor="let status of statuses" [value]="status">{{ status }}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="filters-actions">
+      <button class="btn btn-secondary" (click)="clearFilters()">
+        ❌ Réinitialiser
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="loading-spinner">
+    <div class="spinner"></div>
+    <p>Chargement des capteurs...</p>
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="error" class="alert alert-error">
+    {{ error }}
+  </div>
+
+  <!-- Sensors Grid -->
+  <div *ngIf="!loading && !error && sensors.length > 0" class="sensors-grid">
+    <div class="sensor-card" *ngFor="let sensor of sensors">
+      <div class="sensor-header">
+        <div class="sensor-id">
+          <span class="icon">🔌</span>
+          <strong>{{ sensor.capteur_id }}</strong>
+        </div>
+        <span class="badge" [ngClass]="getStatusClass(sensor.status || 'inactive')">
+          {{ sensor.status }}
+        </span>
+      </div>
+
+      <div class="sensor-location">
+        <span class="icon">📍</span>
+        {{ sensor.location }}
+      </div>
+
+      <div class="sensor-metrics">
+        <div class="metric" [ngClass]="getTemperatureClass(sensor.temperature || 0)">
+          <span class="metric-icon">🌡️</span>
+          <div class="metric-info">
+            <div class="metric-label">Température</div>
+            <div class="metric-value">{{ sensor.temperature }}°C</div>
+          </div>
+        </div>
+
+        <div class="metric" [ngClass]="getHumidityClass(sensor.humidity || 0)">
+          <span class="metric-icon">💧</span>
+          <div class="metric-info">
+            <div class="metric-label">Humidité</div>
+            <div class="metric-value">{{ sensor.humidity }}%</div>
+          </div>
+        </div>
+
+        <div class="metric" [ngClass]="getBatteryClass(sensor.battery_level || 0)">
+          <span class="metric-icon">🔋</span>
+          <div class="metric-info">
+            <div class="metric-label">Batterie</div>
+            <div class="metric-value">{{ sensor.battery_level }}%</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sensor-footer">
+        <span class="timestamp">
+          {{ sensor.timestamp | date:'dd/MM/yyyy HH:mm' }}
+        </span>
+        <span class="source">
+          {{ sensor.source_file }}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <div class="pagination" *ngIf="!loading && getTotalPages() > 1">
+    <button 
+      class="btn btn-secondary" 
+      (click)="changePage(page - 1)" 
+      [disabled]="page === 1"
+    >
+      ← Précédent
+    </button>
+    
+    <div class="page-numbers">
+      <button 
+        *ngFor="let pageNum of getPageNumbers()" 
+        class="btn" 
+        [class.btn-primary]="pageNum === page"
+        [class.btn-secondary]="pageNum !== page"
+        (click)="changePage(pageNum)"
+      >
+        {{ pageNum }}
+      </button>
+    </div>
+    
+    <button 
+      class="btn btn-secondary" 
+      (click)="changePage(page + 1)" 
+      [disabled]="page === getTotalPages()"
+    >
+      Suivant →
+    </button>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!loading && !error && sensors.length === 0" class="empty-state">
+    <div class="empty-icon">🔌</div>
+    <h3>Aucun capteur trouvé</h3>
+    <p>Essayez de modifier vos filtres</p>
+  </div>
+</div>

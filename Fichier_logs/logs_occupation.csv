@@ -1,0 +1,14 @@
+timestamp,salle_id,batiment,type_salle,capacite_max,nombre_personnes,taux_utilisation,evenement,organisateur,duree_prevue,equipements_utilises,temperature_moyenne,co2_moyen,consommation_elec,statut_occupation,zone,etage
+2024-01-15 08:00:00,SAL_101,Batiment A,salle_reunion,20,12,60%,reunion_equipe,Service RH,02:00,ecran,videoprojecteur,22.5,480,2.8,occupee,Zone Nord,1
+2024-01-15 08:30:00,SAL_102,Batiment A,bureau_individuel,1,1,100%,travail_telephonique,Jean Martin,04:00,telephone,ordinateur,23.1,420,0.8,occupee,Zone Sud,1
+2024-01-15 09:30:00,SAL_203,Batiment B,amphitheatre,90,85,94%,cours_master,Prof. Dubois,01:30,videoprojecteur,sonorisation,22.8,680,5.2,occupee,Zone Ouest,2
+2024-01-15 10:15:00,SAL_101,Batiment A,salle_reunion,20,0,0%,libre,null,null,null,21.8,380,0.3,libre,Zone Nord,1
+2024-01-15 11:00:00,SAL_305,Batiment C,bureau,10,3,30%,travail_individuel,Equipe Dev,03:00,ordinateurs,22.1,450,1.5,occupee,Zone Est,3
+2024-01-15 12:00:00,SAL_204,Batiment B,labo_informatique,25,25,100%,tp_informatique,Departement Info,02:00,ordinateurs,switch,23.5,720,8.5,occupee,Zone Centre,2
+2024-01-15 13:30:00,SAL_203,Batiment B,amphitheatre,90,45,50%,conference,Startup Tech,01:15,videoprojecteur,webcam,23.2,580,4.1,occupee,Zone Ouest,2
+2024-01-15 15:00:00,SAL_101,Batiment A,salle_reunion,20,8,40%,reunion_projet,Equipe Marketing,01:30,tableau_interactif,22.7,510,2.1,occupee,Zone Nord,1
+2024-01-15 16:30:00,SAL_301,Batiment C,salle_detente,15,10,67%,pause_cafe,null,00:30,machine_cafe,23.8,620,1.8,occupee,Zone Nord,3
+2024-01-15 17:00:00,SAL_202,Batiment B,salle_formation,30,18,60%,formation_logiciel,Service Formation,03:00,ordinateurs,ecrans,22.9,590,3.4,occupee,Zone Est,2
+2024-01-15 18:30:00,SAL_103,Batiment A,cuisine,5,2,40%,preparation_repas,Service Entretien,00:45,microonde,refrigerateur,24.2,480,2.9,occupee,Zone Sud,1
+2024-01-15 20:00:00,SAL_204,Batiment B,labo_informatique,25,8,32%,revision_examen,Etudiants,02:30,ordinateurs,22.4,520,4.2,occupee,Zone Centre,2
+2024-01-15 22:00:00,SAL_101,Batiment A,salle_reunion,20,0,0%,nettoyage,Service Entretien,01:00,null,21.5,380,0.4,maintenance,Zone Nord,1
