@@ -8,10 +8,11 @@ import { Component } from '@angular/core';
         <h2>🌐 IoT Dashboard</h2>
       </div>
       <ul class="nav-menu">
+        <li><a routerLink="/kibana" routerLinkActive="active">📈 Kibana Dashboards</a></li>
+        <li><a routerLink="/test-pipeline" routerLinkActive="active">🧪 Test Pipeline</a></li>
         <li><a routerLink="/dashboard" routerLinkActive="active">📊 Dashboard</a></li>
         <li><a routerLink="/devices" routerLinkActive="active">📱 Devices</a></li>
         <li><a routerLink="/sensors" routerLinkActive="active">🌡️ Sensors</a></li>
-        <li><a routerLink="/vehicles" routerLinkActive="active">🚗 Vehicles</a></li>
         <li><a routerLink="/upload" routerLinkActive="active">📤 Upload</a></li>
       </ul>
     </nav>

@@ -12,10 +12,10 @@
       <div class="stat-icon">🌡️</div>
       <div class="stat-content">
         <div class="stat-label">Température Moyenne</div>
-        <div class="stat-value">{{ statistics.temperature_stats?.avg?.toFixed(1) || 0 }}°C</div>
+        <div class="stat-value">{{ statistics.temperature_stats.avg?.toFixed(1) || 0 }}°C</div>
         <div class="stat-range">
-          Min: {{ statistics.temperature_stats?.min?.toFixed(1) || 0 }}°C | 
-          Max: {{ statistics.temperature_stats?.max?.toFixed(1) || 0 }}°C
+          Min: {{ statistics.temperature_stats.min?.toFixed(1) || 0 }}°C | 
+          Max: {{ statistics.temperature_stats.max?.toFixed(1) || 0 }}°C
         </div>
       </div>
     </div>
@@ -24,10 +24,10 @@
       <div class="stat-icon">💧</div>
       <div class="stat-content">
         <div class="stat-label">Humidité Moyenne</div>
-        <div class="stat-value">{{ statistics.humidity_stats?.avg?.toFixed(1) || 0 }}%</div>
+        <div class="stat-value">{{ statistics.humidity_stats.avg?.toFixed(1) || 0 }}%</div>
         <div class="stat-range">
-          Min: {{ statistics.humidity_stats?.min?.toFixed(1) || 0 }}% | 
-          Max: {{ statistics.humidity_stats?.max?.toFixed(1) || 0 }}%
+          Min: {{ statistics.humidity_stats.min?.toFixed(1) || 0 }}% | 
+          Max: {{ statistics.humidity_stats.max?.toFixed(1) || 0 }}%
         </div>
       </div>
     </div>
@@ -36,10 +36,10 @@
       <div class="stat-icon">🔋</div>
       <div class="stat-content">
         <div class="stat-label">Batterie Moyenne</div>
-        <div class="stat-value">{{ statistics.battery_stats?.avg?.toFixed(1) || 0 }}%</div>
+        <div class="stat-value">{{ statistics.battery_stats.avg?.toFixed(1) || 0 }}%</div>
         <div class="stat-range">
-          Min: {{ statistics.battery_stats?.min?.toFixed(1) || 0 }}% | 
-          Max: {{ statistics.battery_stats?.max?.toFixed(1) || 0 }}%
+          Min: {{ statistics.battery_stats.min?.toFixed(1) || 0 }}% | 
+          Max: {{ statistics.battery_stats.max?.toFixed(1) || 0 }}%
         </div>
       </div>
     </div>
@@ -50,7 +50,7 @@
         <div class="stat-label">Total Capteurs</div>
         <div class="stat-value">{{ total }}</div>
         <div class="stat-range">
-          {{ statistics.by_status?.length || 0 }} statuts différents
+          {{ statistics.by_status.length || 0 }} statuts différents
         </div>
       </div>
     </div>

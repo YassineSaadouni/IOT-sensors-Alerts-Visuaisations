@@ -8,9 +8,10 @@ import { AppComponent } from './app.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { DevicesComponent } from './components/devices/devices.component';
 import { SensorsComponent } from './components/sensors/sensors.component';
-import { VehiclesComponent } from './components/vehicles/vehicles.component';
 import { FileUploadComponent } from './components/file-upload/file-upload.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { KibanaDashboardComponent } from './kibana-dashboard.component';
+import { TestPipelineComponent } from './components/test-pipeline/test-pipeline.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,6 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     DashboardComponent,
     DevicesComponent,
     SensorsComponent,
-    VehiclesComponent,
     FileUploadComponent,
     NavbarComponent
   ],
@@ -27,7 +27,9 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    KibanaDashboardComponent,  // Import standalone component
+    TestPipelineComponent      // Import standalone component
   ],
   providers: [],
   bootstrap: [AppComponent]

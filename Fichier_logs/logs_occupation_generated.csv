@@ -1,0 +1,51 @@
+timestamp,salle_id,batiment,type_salle,capacite_max,nombre_personnes,taux_utilisation,evenement,organisateur,duree_prevue,equipements_utilises,temperature_moyenne,co2_moyen,consommation_elec,statut_occupation,zone,etage
+2025-12-05 11:18:02,SALLE_809,Batiment C,bureau,92,87,94.6,Workshop,ORG_041,103,Vidéoprojecteur,21.2,1112,1.26,nettoyage,Zone Nord,0
+2025-12-07 08:38:39,SALLE_219,Batiment A,salle_serveur,18,11,61.1,,ORG_028,46,"Vidéoprojecteur, Écrans",21.9,535,3.94,reservee,Zone Nord,4
+2025-12-03 18:37:36,SALLE_429,Batiment C,cafeteria,82,41,50.0,Formation,,186,Écrans,22.2,537,0.57,occupee,Zone Sud,1
+2025-12-01 12:37:40,SALLE_653,Batiment C,laboratoire,15,15,100.0,Réunion,ORG_014,89,Écrans,20.8,773,4.49,occupee,Zone Sud,5
+2025-12-05 12:25:35,SALLE_924,Batiment D,conference,77,4,5.2,Réunion,ORG_022,57,Écrans,21.4,1134,1.19,occupee,Zone Ouest,1
+2025-12-07 08:13:28,SALLE_841,Batiment C,conference,63,18,28.6,Conférence,,95,Vidéoprojecteur,23.3,644,1.84,reservee,Zone Est,0
+2025-12-04 13:46:14,SALLE_176,Batiment C,salle_serveur,36,2,5.6,Réunion,,47,"Vidéoprojecteur, Écrans",20.0,1128,2.02,nettoyage,Zone Est,4
+2025-12-02 20:05:07,SALLE_932,Batiment D,bureau,85,27,31.8,Réunion,ORG_028,33,"Vidéoprojecteur, Écrans",21.5,701,4.06,reservee,Zone Sud,5
+2025-12-05 14:53:09,SALLE_458,Batiment D,cafeteria,34,1,2.9,,ORG_008,99,Écrans,20.5,523,2.89,occupee,Zone Ouest,2
+2025-12-03 10:45:15,SALLE_745,Batiment A,open_space,80,7,8.8,Réunion,ORG_017,212,Écrans,21.0,1077,3.69,nettoyage,Zone Sud,1
+2025-12-01 13:19:44,SALLE_235,Batiment A,salle_serveur,91,10,11.0,Formation,ORG_010,132,Écrans,22.5,483,4.9,reservee,Zone Nord,3
+2025-12-03 04:22:52,SALLE_572,Batiment D,open_space,60,10,16.7,Formation,ORG_025,77,Écrans,21.2,897,2.62,occupee,Zone Sud,3
+2025-12-06 04:43:38,SALLE_405,Batiment A,salle_serveur,23,10,43.5,Réunion,,177,"Vidéoprojecteur, Écrans",20.6,974,2.34,occupee,Zone Est,1
+2025-12-06 18:43:35,SALLE_619,Batiment C,bureau,29,27,93.1,Conférence,,228,Écrans,21.8,987,4.4,reservee,Zone Centrale,2
+2025-12-03 06:39:30,SALLE_105,Batiment A,cafeteria,52,26,50.0,Réunion,ORG_036,205,Aucun,20.9,402,1.77,libre,Zone Nord,0
+2025-12-03 20:32:15,SALLE_719,Batiment B,open_space,98,76,77.6,Formation,,90,Vidéoprojecteur,21.5,573,1.02,libre,Zone Sud,1
+2025-12-07 22:58:06,SALLE_832,Batiment A,salle_serveur,66,44,66.7,Réunion,ORG_001,217,Aucun,23.0,661,3.84,occupee,Zone Ouest,4
+2025-12-07 04:16:52,SALLE_778,Batiment C,laboratoire,73,49,67.1,,ORG_041,229,Aucun,19.7,1142,2.33,occupee,Zone Ouest,2
+2025-12-07 13:27:35,SALLE_432,Batiment B,conference,44,17,38.6,Conférence,,70,"Vidéoprojecteur, Écrans",22.0,1182,2.1,reservee,Zone Nord,2
+2025-12-02 21:37:47,SALLE_142,Batiment B,conference,98,4,4.1,,ORG_045,55,Vidéoprojecteur,20.6,647,1.61,occupee,Zone Nord,1
+2025-12-05 05:53:21,SALLE_834,Batiment A,salle_serveur,26,12,46.2,Workshop,ORG_031,128,"Vidéoprojecteur, Écrans",21.1,1137,4.97,reservee,Zone Sud,1
+2025-12-03 07:39:30,SALLE_129,Batiment D,laboratoire,40,14,35.0,Workshop,ORG_001,144,Vidéoprojecteur,20.3,998,3.53,nettoyage,Zone Nord,1
+2025-12-07 21:21:23,SALLE_190,Batiment C,laboratoire,100,95,95.0,,ORG_023,232,Écrans,23.5,754,0.92,occupee,Zone Sud,2
+2025-12-05 00:50:29,SALLE_103,Batiment A,open_space,96,44,45.8,Formation,,168,"Vidéoprojecteur, Écrans",22.4,894,4.87,reservee,Zone Est,0
+2025-12-05 18:14:48,SALLE_490,Batiment C,open_space,66,54,81.8,Formation,ORG_010,232,Aucun,23.1,1122,3.53,libre,Zone Sud,4
+2025-12-03 15:33:42,SALLE_109,Batiment A,laboratoire,16,0,0.0,Réunion,ORG_018,37,Écrans,20.1,1174,1.99,nettoyage,Zone Nord,5
+2025-12-04 13:59:25,SALLE_840,Batiment D,bureau,40,4,10.0,Réunion,ORG_002,58,Aucun,21.3,870,3.52,occupee,Zone Centrale,5
+2025-12-01 15:27:50,SALLE_658,Batiment C,open_space,25,2,8.0,Formation,ORG_041,161,Écrans,21.2,977,4.55,occupee,Zone Sud,4
+2025-12-04 05:17:03,SALLE_524,Batiment A,bureau,52,38,73.1,Réunion,ORG_023,91,"Vidéoprojecteur, Écrans",23.9,948,2.32,occupee,Zone Sud,5
+2025-12-05 12:00:21,SALLE_308,Batiment D,salle_serveur,78,36,46.2,Réunion,,148,Vidéoprojecteur,19.4,658,2.07,reservee,Zone Sud,0
+2025-12-02 20:23:29,SALLE_611,Batiment C,conference,43,42,97.7,Workshop,,146,Vidéoprojecteur,22.7,1116,4.18,nettoyage,Zone Centrale,1
+2025-12-03 13:58:10,SALLE_176,Batiment D,laboratoire,100,25,25.0,,,174,"Vidéoprojecteur, Écrans",21.6,688,1.93,occupee,Zone Est,3
+2025-12-02 21:54:47,SALLE_452,Batiment A,bureau,74,9,12.2,Réunion,ORG_012,111,Aucun,19.6,839,4.31,libre,Zone Est,4
+2025-12-07 15:13:47,SALLE_659,Batiment A,salle_serveur,92,80,87.0,Formation,ORG_037,169,Aucun,21.2,1174,1.2,reservee,Zone Ouest,2
+2025-12-02 13:06:46,SALLE_531,Batiment D,cafeteria,65,17,26.2,Formation,,236,Aucun,23.0,709,3.24,occupee,Zone Est,2
+2025-12-04 12:41:30,SALLE_355,Batiment A,salle_serveur,87,78,89.7,Formation,ORG_020,76,Vidéoprojecteur,22.7,841,2.65,occupee,Zone Nord,1
+2025-12-06 13:20:49,SALLE_885,Batiment A,salle_serveur,66,56,84.8,Conférence,ORG_003,158,"Vidéoprojecteur, Écrans",19.2,656,3.87,occupee,Zone Sud,3
+2025-12-07 06:34:02,SALLE_122,Batiment D,conference,81,26,32.1,Conférence,ORG_020,169,"Vidéoprojecteur, Écrans",22.5,713,1.91,nettoyage,Zone Sud,4
+2025-12-05 19:01:50,SALLE_369,Batiment D,conference,91,37,40.7,Conférence,ORG_013,38,"Vidéoprojecteur, Écrans",24.0,688,4.45,reservee,Zone Sud,1
+2025-12-03 11:55:36,SALLE_257,Batiment B,salle_serveur,92,1,1.1,,,179,Aucun,21.8,890,4.83,nettoyage,Zone Sud,1
+2025-12-04 00:17:12,SALLE_935,Batiment C,bureau,85,41,48.2,Formation,ORG_048,161,"Vidéoprojecteur, Écrans",22.1,1172,2.96,reservee,Zone Centrale,1
+2025-12-02 07:20:18,SALLE_655,Batiment C,open_space,21,14,66.7,Formation,ORG_017,132,Écrans,20.1,898,1.23,occupee,Zone Ouest,0
+2025-12-08 02:39:18,SALLE_118,Batiment A,conference,45,28,62.2,,,186,"Vidéoprojecteur, Écrans",21.8,957,1.46,libre,Zone Est,3
+2025-12-07 00:43:37,SALLE_662,Batiment D,cafeteria,46,13,28.3,Réunion,ORG_018,164,"Vidéoprojecteur, Écrans",19.6,695,1.69,occupee,Zone Sud,1
+2025-12-01 21:24:39,SALLE_889,Batiment C,open_space,62,27,43.5,Formation,ORG_025,81,Vidéoprojecteur,20.2,688,2.88,reservee,Zone Nord,4
+2025-12-05 08:40:09,SALLE_483,Batiment C,salle_serveur,78,12,15.4,Workshop,ORG_012,178,Écrans,23.4,620,0.89,reservee,Zone Centrale,5
+2025-12-01 15:03:33,SALLE_604,Batiment A,conference,44,16,36.4,Formation,ORG_049,149,"Vidéoprojecteur, Écrans",20.2,730,1.89,nettoyage,Zone Est,2
+2025-12-03 09:38:47,SALLE_897,Batiment C,open_space,70,2,2.9,Conférence,,183,Vidéoprojecteur,22.4,460,1.25,nettoyage,Zone Nord,0
+2025-12-06 04:02:41,SALLE_141,Batiment B,bureau,27,21,77.8,Réunion,,41,"Vidéoprojecteur, Écrans",20.5,1139,2.95,reservee,Zone Est,3
+2025-12-06 16:58:42,SALLE_112,Batiment C,cafeteria,69,11,15.9,Formation,ORG_027,218,Vidéoprojecteur,22.1,414,1.59,reservee,Zone Ouest,2
