@@ -93,7 +93,26 @@ class FileUploadView(APIView):
         filename = file.name
         file_type = 'json' if filename.endswith('.json') else 'csv'
         
-        logger.info(f"📁 Fichier reçu: {filename}")
+        # Extraire le data_type depuis le POST ou le déduire du nom de fichier
+        data_type = request.data.get('data_type', None)
+        
+        # Si pas de data_type, essayer de le déduire du nom de fichier
+        if not data_type:
+            filename_lower = filename.lower()
+            if 'alerte' in filename_lower:
+                data_type = 'alertes'
+            elif 'capteur' in filename_lower or 'sensor' in filename_lower:
+                data_type = 'capteurs'
+            elif 'consommation' in filename_lower:
+                data_type = 'consommation'
+            elif 'occupation' in filename_lower:
+                data_type = 'occupation'
+            elif 'maintenance' in filename_lower:
+                data_type = 'maintenance'
+            else:
+                data_type = 'unknown'
+        
+        logger.info(f"📁 Fichier reçu: {filename} [Type: {data_type}]")
         
         # Lire le contenu
         try:
@@ -133,6 +152,7 @@ class FileUploadView(APIView):
                 enriched_record = {
                     "source_file": filename,
                     "file_type": file_type,
+                    "data_type": data_type,
                     "upload_timestamp": datetime.now().isoformat(),
                     "data": record
                 }
@@ -156,6 +176,7 @@ class FileUploadView(APIView):
                 'message': 'Fichier traité avec succès',
                 'filename': filename,
                 'file_type': file_type,
+                'data_type': data_type,
                 'records_processed': count,
                 'redis_queue_length': queue_length,
                 'timestamp': datetime.now().isoformat()

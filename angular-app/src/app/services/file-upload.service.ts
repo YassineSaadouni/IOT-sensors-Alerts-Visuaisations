@@ -20,6 +20,10 @@ export class FileUploadService {
     return this.http.post(`${this.uploadUrl}/`, formData);
   }
 
+  uploadFileWithType(formData: FormData): Observable<any> {
+    return this.http.post(`${this.uploadUrl}/`, formData);
+  }
+
   getRecentUploads(): Observable<{ uploads: FileUploadHistory[] }> {
     return this.http.get<{ uploads: FileUploadHistory[] }>(`${this.apiUrl}/files/recent/`);
   }

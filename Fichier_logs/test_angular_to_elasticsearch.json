@@ -1,0 +1,67 @@
+[
+  {
+    "id_alerte": "ALT-ANGULAR-001",
+    "timestamp": "2025-12-09T10:30:00Z",
+    "type_alerte": "test_angular",
+    "categorie": "technique",
+    "severite": "moyenne",
+    "batiment": "Bâtiment Angular",
+    "salle": "Salle Upload",
+    "zone": "Zone Test",
+    "technicien_assigne": "Test Angular",
+    "statut": "ouverte",
+    "description": "Test upload depuis Angular vers Django vers Redis vers Logstash vers Elasticsearch"
+  },
+  {
+    "id_alerte": "ALT-ANGULAR-002",
+    "timestamp": "2025-12-09T10:35:00Z",
+    "type_alerte": "incendie",
+    "categorie": "securite",
+    "severite": "critique",
+    "batiment": "Bâtiment Angular",
+    "salle": "Salle 201",
+    "zone": "Zone Nord",
+    "technicien_assigne": "Pompier Test",
+    "statut": "en_cours",
+    "description": "Détection de fumée - Test pipeline complet Angular"
+  },
+  {
+    "id_alerte": "ALT-ANGULAR-003",
+    "timestamp": "2025-12-09T10:40:00Z",
+    "type_alerte": "intrusion",
+    "categorie": "securite",
+    "severite": "haute",
+    "batiment": "Bâtiment Angular",
+    "salle": "Salle Serveurs",
+    "zone": "Zone Sécurisée",
+    "technicien_assigne": "Sécurité Test",
+    "statut": "ouverte",
+    "description": "Accès non autorisé détecté - Test Angular→Django→Redis→Logstash→ES"
+  },
+  {
+    "id_alerte": "ALT-ANGULAR-004",
+    "timestamp": "2025-12-09T10:45:00Z",
+    "type_alerte": "temperature",
+    "categorie": "technique",
+    "severite": "moyenne",
+    "batiment": "Bâtiment Angular",
+    "salle": "Datacenter",
+    "zone": "Zone Climatisation",
+    "technicien_assigne": "HVAC Test",
+    "statut": "ouverte",
+    "description": "Température élevée - Pipeline: UI→API→Queue→Processing→Index"
+  },
+  {
+    "id_alerte": "ALT-ANGULAR-005",
+    "timestamp": "2025-12-09T10:50:00Z",
+    "type_alerte": "fuite",
+    "categorie": "technique",
+    "severite": "haute",
+    "batiment": "Bâtiment Angular",
+    "salle": "Sous-sol",
+    "zone": "Zone Tuyauterie",
+    "technicien_assigne": "Plombier Test",
+    "statut": "en_cours",
+    "description": "Fuite d'eau détectée - Test complet du flux de données IoT"
+  }
+]

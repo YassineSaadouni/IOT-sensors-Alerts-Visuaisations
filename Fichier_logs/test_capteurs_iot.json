@@ -1,0 +1,72 @@
+[
+  {
+    "id_capteur": "CAPT-TEST-001",
+    "timestamp": "2025-12-09T10:00:00Z",
+    "device_id": "SENSOR-TEMP-01",
+    "type_capteur": "temperature_humidite",
+    "batiment": "Bâtiment A",
+    "salle": "Salle 101",
+    "zone": "Zone Nord",
+    "temperature": 22.5,
+    "humidity": 45.0,
+    "battery_level": 85,
+    "signal_strength": -65,
+    "status": "actif"
+  },
+  {
+    "id_capteur": "CAPT-TEST-002",
+    "timestamp": "2025-12-09T10:05:00Z",
+    "device_id": "SENSOR-TEMP-02",
+    "type_capteur": "temperature_humidite",
+    "batiment": "Bâtiment A",
+    "salle": "Salle 102",
+    "zone": "Zone Sud",
+    "temperature": 23.8,
+    "humidity": 48.2,
+    "battery_level": 92,
+    "signal_strength": -58,
+    "status": "actif"
+  },
+  {
+    "id_capteur": "CAPT-TEST-003",
+    "timestamp": "2025-12-09T10:10:00Z",
+    "device_id": "SENSOR-CO2-01",
+    "type_capteur": "qualite_air",
+    "batiment": "Bâtiment B",
+    "salle": "Salle 201",
+    "zone": "Zone Est",
+    "temperature": 21.0,
+    "humidity": 52.0,
+    "co2_level": 450,
+    "battery_level": 78,
+    "signal_strength": -72,
+    "status": "actif"
+  },
+  {
+    "id_capteur": "CAPT-TEST-004",
+    "timestamp": "2025-12-09T10:15:00Z",
+    "device_id": "SENSOR-TEMP-03",
+    "type_capteur": "temperature_humidite",
+    "batiment": "Bâtiment C",
+    "salle": "Salle 301",
+    "zone": "Zone Ouest",
+    "temperature": 19.5,
+    "humidity": 55.8,
+    "battery_level": 15,
+    "signal_strength": -80,
+    "status": "batterie_faible"
+  },
+  {
+    "id_capteur": "CAPT-TEST-005",
+    "timestamp": "2025-12-09T10:20:00Z",
+    "device_id": "SENSOR-MOTION-01",
+    "type_capteur": "mouvement",
+    "batiment": "Bâtiment A",
+    "salle": "Salle 103",
+    "zone": "Couloir",
+    "motion_detected": true,
+    "battery_level": 95,
+    "signal_strength": -55,
+    "status": "actif"
+  }
+]

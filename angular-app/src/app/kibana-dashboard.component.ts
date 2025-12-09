@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-kibana-dashboard',
@@ -9,95 +8,199 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
   template: `
     <div class="dashboard-container">
       <div class="dashboard-header">
-        <h2>{{ title }}</h2>
-        
-        <div class="dashboard-selector">
-          <button (click)="loadDashboard('overview')" 
-                  [class.active]="currentDashboard === 'overview'">
-            🏠 Vue d'ensemble
-          </button>
-          <button (click)="loadDashboard('alertes')" 
-                  [class.active]="currentDashboard === 'alertes'">
-            🚨 Alertes
-          </button>
-          <button (click)="loadDashboard('capteurs')" 
-                  [class.active]="currentDashboard === 'capteurs'">
-            🌡️ Capteurs
-          </button>
-          <button (click)="loadDashboard('consommation')" 
-                  [class.active]="currentDashboard === 'consommation'">
-            ⚡ Consommation
-          </button>
-          <button (click)="loadDashboard('occupation')" 
-                  [class.active]="currentDashboard === 'occupation'">
-            🏢 Occupation
-          </button>
-          <button (click)="loadDashboard('maintenance')" 
-                  [class.active]="currentDashboard === 'maintenance'">
-            🔧 Maintenance
-          </button>
+        <h2>📊 Tableaux de bord Kibana</h2>
+        <p class="header-subtitle">Intégrez vos iframes Kibana ci-dessous</p>
+      </div>
+
+      <!-- Section Overview -->
+      <div class="iframe-section">
+        <div class="section-header">
+          <h3>🏠 Vue d'ensemble</h3>
+          <span class="section-badge">Dashboard 1</span>
         </div>
-        
-        <div class="dashboard-actions">
-          <button (click)="refreshDashboard()" class="btn-refresh">
-            🔄 Actualiser
-          </button>
-          <a [href]="kibanaUrl + '/app/dashboards#/view/' + dashboards[currentDashboard]" 
-             target="_blank" 
-             class="btn-external">
-            🔗 Ouvrir dans Kibana
-          </a>
+        <div class="iframe-placeholder">
+          <!-- AJOUTEZ VOTRE IFRAME OVERVIEW ICI -->
+          <div class="placeholder-content">
+            <p class="placeholder-instructions">
+<iframe src="http://localhost:5601/app/dashboards#/view/38ed7e10-d461-11f0-b7e9-5150dc613157?embed=true&_g=()&show-time-filter=true" height="1200" width="1200"></iframe>            </p>
+          </div>
         </div>
       </div>
-      
-      <div class="dashboard-content">
-        <iframe 
-          *ngIf="dashboardUrl"
-          [src]="dashboardUrl" 
-          class="kibana-iframe"
-          frameborder="0"
-          (load)="onLoad()">
-        </iframe>
-        
-        <div *ngIf="loading" class="loading-overlay">
-          <div class="spinner"></div>
-          <p>Chargement du dashboard...</p>
-        </div>
-      </div>
-    </div>
+   </div>
   `,
   styles: [`
     .dashboard-container {
-      height: 100%;
-      display: flex;
-      flex-direction: column;
+      padding: 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+      background: #f5f7fa;
+      min-height: 100vh;
     }
     
     .dashboard-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem;
-      background: #f5f5f5;
-      border-bottom: 2px solid #ddd;
+      text-align: center;
+      margin-bottom: 3rem;
+      padding: 2rem;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
     
     .dashboard-header h2 {
+      margin: 0 0 0.5rem 0;
+      color: #2d3748;
+      font-size: 2rem;
+    }
+
+    .header-subtitle {
+      color: #718096;
+      font-size: 1.1rem;
       margin: 0;
-      color: #333;
     }
-    
-    .dashboard-actions {
+
+    .iframe-section {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .section-header {
       display: flex;
-      gap: 0.5rem;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid #e2e8f0;
     }
-    
-    .btn-refresh, .btn-external {
+
+    .section-header h3 {
+      margin: 0;
+      color: #2d3748;
+      font-size: 1.5rem;
+    }
+
+    .section-badge {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
       padding: 0.5rem 1rem;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .iframe-placeholder {
+      min-height: 600px;
+      border: 3px dashed #cbd5e0;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f7fafc;
+      position: relative;
+    }
+
+    .placeholder-content {
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .placeholder-icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      opacity: 0.6;
+    }
+
+    .placeholder-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #4a5568;
+      margin-bottom: 1rem;
+    }
+
+    .placeholder-instructions {
+      color: #718096;
+      font-size: 1rem;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .usage-guide {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      margin-top: 3rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border-left: 4px solid #667eea;
+    }
+
+    .usage-guide h4 {
+      margin-top: 0;
+      color: #2d3748;
+      font-size: 1.3rem;
+    }
+
+    .usage-guide ol {
+      color: #4a5568;
+      line-height: 1.8;
+      padding-left: 1.5rem;
+    }
+
+    .usage-guide li {
+      margin-bottom: 0.75rem;
+    }
+
+    .usage-guide a {
+      color: #667eea;
       text-decoration: none;
+      font-weight: 600;
+    }
+
+    .usage-guide a:hover {
+      text-decoration: underline;
+    }
+
+    .usage-guide code {
+      background: #edf2f7;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      color: #e53e3e;
+      font-size: 0.9rem;
+    }
+
+    .example-code {
+      background: #2d3748;
+      color: #e2e8f0;
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-top: 1rem;
+      overflow-x: auto;
+    }
+
+    .example-code strong {
+      color: #48bb78;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .example-code pre {
+      margin: 0;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: #a0aec0;
+    }
+
+    /* Style pour les iframes quand vous les ajouterez */
+    .kibana-iframe {
+      width: 100%;
+      height: 600px;
+      border: none;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    
       display: inline-block;
       font-size: 0.9rem;
     }
@@ -190,51 +293,13 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
   `]
 })
 export class KibanaDashboardComponent implements OnInit {
-  title: string = 'Dashboard IoT';
-  kibanaUrl: string = 'http://localhost:5601';
+  // Ce composant est prêt pour recevoir vos iframes Kibana
+  // Vous pouvez ajouter vos propres méthodes et propriétés ici si nécessaire
   
-  // IDs des dashboards Kibana (recuperes automatiquement)
-  dashboards: { [key: string]: string } = {
-    alertes: 'dashboard-alertes',
-    capteurs: 'dashboard-capteurs',
-    consommation: 'dashboard-consommation',
-    occupation: 'dashboard-occupation',
-    maintenance: 'dashboard-maintenance',
-    overview: 'dashboard-overview'
-  };
-  
-  currentDashboard: string = 'alertes';
-  dashboardUrl: SafeResourceUrl | null = null;
-  loading: boolean = true;
-  
-  constructor(private sanitizer: DomSanitizer) {}
-  
+  constructor() {}
+
   ngOnInit() {
-    this.loadDashboard();
-  }
-  
-  loadDashboard(type?: string) {
-    if (type) {
-      this.currentDashboard = type;
-    }
-    
-    this.loading = true;
-    const dashboardId = this.dashboards[this.currentDashboard as keyof typeof this.dashboards];
-    
-    // URL avec embed=true pour integration iframe
-    const url = `${this.kibanaUrl}/app/dashboards#/view/${dashboardId}?embed=true&_g=(filters:!(),refreshInterval:(pause:!t,value:60000),time:(from:now-30d,to:now))&_a=(description:'',filters:!(),fullScreenMode:!f,options:(hidePanelTitles:!f,useMargins:!t),query:(language:kuery,query:''),timeRestore:!f,title:'',viewMode:view)`;
-    this.dashboardUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
-  }
-  
-  refreshDashboard() {
-    const currentUrl = this.dashboardUrl;
-    this.dashboardUrl = null;
-    setTimeout(() => {
-      this.dashboardUrl = currentUrl;
-    }, 100);
-  }
-  
-  onLoad() {
-    this.loading = false;
+    console.log('Kibana Dashboard Component initialisé');
+    console.log('Prêt à recevoir vos iframes!');
   }
 }

@@ -1,0 +1,67 @@
+[
+  {
+    "id_consommation": "CONSO-TEST-001",
+    "timestamp": "2025-12-09T09:00:00Z",
+    "batiment": "Bâtiment A",
+    "salle": "Salle 101",
+    "zone": "Zone Production",
+    "type_energie": "electricite",
+    "consommation_kwh": 125.5,
+    "cout_euro": 18.83,
+    "puissance_instantanee": 5.2,
+    "facteur_puissance": 0.92,
+    "tarif": "heures_pleines"
+  },
+  {
+    "id_consommation": "CONSO-TEST-002",
+    "timestamp": "2025-12-09T09:15:00Z",
+    "batiment": "Bâtiment A",
+    "salle": "Salle 102",
+    "zone": "Zone Bureau",
+    "type_energie": "electricite",
+    "consommation_kwh": 45.2,
+    "cout_euro": 6.78,
+    "puissance_instantanee": 1.8,
+    "facteur_puissance": 0.88,
+    "tarif": "heures_pleines"
+  },
+  {
+    "id_consommation": "CONSO-TEST-003",
+    "timestamp": "2025-12-09T09:30:00Z",
+    "batiment": "Bâtiment B",
+    "salle": "Chaufferie",
+    "zone": "Technique",
+    "type_energie": "gaz",
+    "consommation_kwh": 280.0,
+    "cout_euro": 22.40,
+    "puissance_instantanee": 11.2,
+    "facteur_puissance": 1.0,
+    "tarif": "hiver"
+  },
+  {
+    "id_consommation": "CONSO-TEST-004",
+    "timestamp": "2025-12-09T09:45:00Z",
+    "batiment": "Bâtiment C",
+    "salle": "Datacenter",
+    "zone": "Serveurs",
+    "type_energie": "electricite",
+    "consommation_kwh": 450.8,
+    "cout_euro": 67.62,
+    "puissance_instantanee": 18.0,
+    "facteur_puissance": 0.95,
+    "tarif": "heures_pleines"
+  },
+  {
+    "id_consommation": "CONSO-TEST-005",
+    "timestamp": "2025-12-09T10:00:00Z",
+    "batiment": "Bâtiment A",
+    "salle": "Éclairage Général",
+    "zone": "Tous étages",
+    "type_energie": "electricite",
+    "consommation_kwh": 85.5,
+    "cout_euro": 12.83,
+    "puissance_instantanee": 3.4,
+    "facteur_puissance": 0.90,
+    "tarif": "heures_pleines"
+  }
+]

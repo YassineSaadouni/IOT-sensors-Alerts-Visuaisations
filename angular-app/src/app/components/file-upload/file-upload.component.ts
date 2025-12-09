@@ -9,11 +9,23 @@ import { FileUploadHistory } from '../../models/models';
 })
 export class FileUploadComponent implements OnInit {
   selectedFile: File | null = null;
+  selectedDataType: string = 'auto'; // Type de données: alertes, capteurs, etc.
   uploading = false;
   uploadProgress = 0;
   uploadSuccess = false;
   uploadError: string | null = null;
+  uploadResponse: any = null;
   isDragging = false;
+
+  // Types de données disponibles
+  dataTypes = [
+    { value: 'auto', label: '🤖 Détection automatique' },
+    { value: 'alertes', label: '🚨 Alertes' },
+    { value: 'capteurs', label: '📡 Capteurs' },
+    { value: 'consommation', label: '⚡ Consommation' },
+    { value: 'occupation', label: '👥 Occupation' },
+    { value: 'maintenance', label: '🔧 Maintenance' }
+  ];
 
   // Upload history
   history: FileUploadHistory[] = [];
@@ -92,6 +104,7 @@ export class FileUploadComponent implements OnInit {
     this.uploadProgress = 0;
     this.uploadError = null;
     this.uploadSuccess = false;
+    this.uploadResponse = null;
 
     // Simulate progress (since the API doesn't support progress events)
     const progressInterval = setInterval(() => {
@@ -100,13 +113,24 @@ export class FileUploadComponent implements OnInit {
       }
     }, 200);
 
-    this.fileUploadService.uploadFile(this.selectedFile).subscribe({
+    // Préparer le FormData avec le type de données
+    const formData = new FormData();
+    formData.append('file', this.selectedFile);
+    
+    // Ajouter data_type seulement si ce n'est pas 'auto'
+    if (this.selectedDataType && this.selectedDataType !== 'auto') {
+      formData.append('data_type', this.selectedDataType);
+    }
+
+    this.fileUploadService.uploadFileWithType(formData).subscribe({
       next: (response) => {
         clearInterval(progressInterval);
         this.uploadProgress = 100;
         this.uploading = false;
         this.uploadSuccess = true;
-        this.selectedFile = null;
+        this.uploadResponse = response;
+        
+        console.log('Upload successful:', response);
 
         // Reload history and stats
         setTimeout(() => {
@@ -114,10 +138,12 @@ export class FileUploadComponent implements OnInit {
           this.loadStats();
         }, 500);
 
-        // Reset success message after 3 seconds
+        // Reset success message after 5 seconds
         setTimeout(() => {
           this.uploadSuccess = false;
-        }, 3000);
+          this.uploadResponse = null;
+          this.selectedFile = null;
+        }, 5000);
       },
       error: (error) => {
         clearInterval(progressInterval);
