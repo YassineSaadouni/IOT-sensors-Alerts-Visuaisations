@@ -1,103 +1,205 @@
-# Système de Gestion IoT - Big Data Project
+# 🏢 Plateforme IoT Big Data - Système de Gestion Intelligente de Bâtiments
+
+[![Python](https://img.shields.io/badge/Python-3.11-blue.svg)](https://www.python.org/)
+[![Django](https://img.shields.io/badge/Django-5.0-green.svg)](https://www.djangoproject.com/)
+[![Angular](https://img.shields.io/badge/Angular-17-red.svg)](https://angular.io/)
+[![Elasticsearch](https://img.shields.io/badge/Elasticsearch-8.9-yellow.svg)](https://www.elastic.co/)
+[![Docker](https://img.shields.io/badge/Docker-Compose-blue.svg)](https://www.docker.com/)
 
 Plateforme complète de gestion et d'analyse de données IoT pour le monitoring de bâtiments intelligents. Le système collecte, traite et analyse en temps réel les données provenant de capteurs, alertes, consommation énergétique, occupation des salles et maintenance des équipements.
 
+---
+
 ## 📋 Table des matières
 
-- [Architecture](#architecture)
-- [Technologies](#technologies)
-- [Fonctionnalités](#fonctionnalités)
-- [Prérequis](#prérequis)
-- [Installation](#installation)
-- [Configuration](#configuration)
-- [Utilisation](#utilisation)
-- [API Endpoints](#api-endpoints)
-- [Structure du Projet](#structure-du-projet)
-- [Tests](#tests)
-- [Dépannage](#dépannage)
+- [Vue d'ensemble](#-vue-densemble)
+- [Architecture](#-architecture)
+- [Technologies](#-technologies)
+- [Fonctionnalités](#-fonctionnalités)
+- [Installation Rapide](#-installation-rapide)
+- [Guide d'utilisation](#-guide-dutilisation)
+- [API Documentation](#-api-documentation)
+- [Structure du Projet](#-structure-du-projet)
+- [Tests](#-tests)
+- [Dépannage](#-dépannage)
+- [Contribution](#-contribution)
+
+---
+
+## 🎯 Vue d'ensemble
+
+Ce projet est une plateforme Big Data complète permettant de :
+- **Collecter** des données IoT depuis multiples sources (JSON, CSV, NDJSON)
+- **Traiter** les données en temps réel via un pipeline Logstash
+- **Stocker** dans Elasticsearch pour une recherche ultra-rapide
+- **Analyser** avec des API REST Django performantes
+- **Visualiser** via une interface Angular moderne et Kibana
+
+### Cas d'usage principaux
+
+1. **Monitoring en temps réel** : Surveillance continue de 5 types de données IoT
+2. **Alertes intelligentes** : Détection et classification automatique des anomalies
+3. **Analyse prédictive** : Maintenance préventive basée sur l'historique
+4. **Optimisation énergétique** : Suivi et réduction de la consommation
+5. **Gestion d'espace** : Optimisation de l'occupation des salles
+
+---
 
 ## 🏗️ Architecture
 
-Le système est basé sur une architecture microservices containerisée :
+### Architecture Globale
 
 ```
-┌─────────────┐      ┌──────────────┐      ┌──────────────┐
-│  Fichiers   │─────▶│   Logstash   │─────▶│Elasticsearch │
-│    Logs     │      │  (Pipeline)  │      │  (Storage)   │
-└─────────────┘      └──────────────┘      └──────────────┘
-                            │                       │
-                            │                       ▼
-                            │              ┌──────────────┐
-                            │              │    Django    │
-                            │              │  (REST API)  │
-                            │              └──────────────┘
-                            │                       │
-                            ▼                       ▼
-                     ┌──────────┐          ┌──────────────┐
-                     │  Redis   │          │   Angular    │
-                     │ (Cache)  │          │  (Frontend)  │
-                     └──────────┘          └──────────────┘
+┌─────────────────────────────────────────────────────────────────────────┐
+│                         PLATEFORME IOT BIG DATA                         │
+└─────────────────────────────────────────────────────────────────────────┘
+
+ ┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌──────────┐
+ │  Fichiers   │────▶│   Django    │────▶│    Redis    │────▶│ Logstash │
+ │   Logs      │     │ Upload API  │     │   Queue     │     │ Pipeline │
+ │ (CSV/JSON)  │     │             │     │             │     │          │
+ └─────────────┘     └─────────────┘     └─────────────┘     └─────┬────┘
+                                                                     │
+                                                                     ▼
+ ┌─────────────┐     ┌─────────────┐     ┌────────────────────────────┐
+ │   Angular   │◀────│   Django    │◀────│     Elasticsearch          │
+ │  Frontend   │     │  REST API   │     │   (5 indices IoT)          │
+ │             │     │             │     │  - iot-alertes             │
+ └──────┬──────┘     └─────────────┘     │  - iot-capteurs            │
+        │                   ▲             │  - iot-consommation        │
+        │                   │             │  - iot-occupation          │
+        ▼                   │             │  - iot-maintenance         │
+ ┌─────────────┐     ┌──────────────┐    └────────────────────────────┘
+ │   Kibana    │────▶│ Elasticsearch│                 ▲
+ │ Dashboards  │     │              │                 │
+ └─────────────┘     └──────────────┘     ┌───────────┴────────────┐
+                                           │   Recherche temps réel │
+                                           │   Agrégations          │
+                                           │   Analytics            │
+                                           └────────────────────────┘
 ```
+
+### Flux de données détaillé
+
+1. **Ingestion** : Upload de fichiers (CSV/JSON) via API Django ou interface Angular
+2. **Mise en queue** : Stockage temporaire dans Redis pour traitement asynchrone
+3. **Transformation** : Logstash lit Redis, parse et enrichit les données
+4. **Indexation** : Elasticsearch indexe les données pour recherche rapide
+5. **Exposition** : Django REST API expose les données
+6. **Visualisation** : Angular + Kibana affichent les résultats
+
+---
 
 ## 🛠️ Technologies
 
-### Backend
-- **Python 3.11** - Langage principal
-- **Django 5.0** - Framework web
-- **Django REST Framework** - API RESTful
-- **Elasticsearch 8.9.0** - Moteur de recherche et analytics
-- **Logstash 8.9.0** - Pipeline de traitement de données
-- **Redis 7** - Cache et file de messages
-- **Kibana 8.9.0** - Visualisation de données
+### Stack Backend
 
-### Frontend
-- **Angular 17** - Framework JavaScript
-- **TypeScript** - Typage statique
-- **RxJS** - Programmation réactive
-- **Bootstrap/Material** - UI Components
+| Technologie | Version | Rôle |
+|------------|---------|------|
+| **Python** | 3.11 | Langage principal |
+| **Django** | 5.0 | Framework web |
+| **Django REST Framework** | 3.14 | API RESTful |
+| **Elasticsearch** | 8.9.0 | Moteur de recherche & analytics |
+| **Logstash** | 8.9.0 | Pipeline ETL temps réel |
+| **Redis** | 7.0 | Cache & file de messages |
+| **Kibana** | 8.9.0 | Visualisation de données |
 
-### DevOps
-- **Docker & Docker Compose** - Containerisation
-- **Git** - Contrôle de version
+### Stack Frontend
+
+| Technologie | Version | Rôle |
+|------------|---------|------|
+| **Angular** | 17 | Framework SPA |
+| **TypeScript** | 5.2 | Typage statique |
+| **RxJS** | 7.8 | Programmation réactive |
+| **SCSS** | - | Stylisation |
+
+### DevOps & Infrastructure
+
+| Technologie | Rôle |
+|------------|------|
+| **Docker** | Containerisation |
+| **Docker Compose** | Orchestration multi-conteneurs |
+| **Git** | Contrôle de version |
+
+---
 
 ## ✨ Fonctionnalités
 
-### 1. Gestion des Alertes
-- Monitoring en temps réel des alertes de capteurs
-- Classification par sévérité (haute, moyenne, faible)
-- Suivi du statut (non résolue, en cours, résolue)
-- Statistiques agrégées par catégorie, bâtiment, sévérité
+### 🚨 1. Gestion des Alertes
+- **Monitoring temps réel** des alertes de capteurs IoT
+- **Classification automatique** par sévérité (critique, haute, moyenne, faible)
+- **Suivi du statut** (non résolue, en cours, résolue, fermée)
+- **Statistiques avancées** : agrégations par catégorie, bâtiment, sévérité, zone
+- **Recherche full-text** avec filtres multiples
+- **API REST complète** avec pagination
 
-### 2. Données des Capteurs
-- Collecte des données de capteurs (température, humidité, CO2, etc.)
-- Monitoring de l'état des capteurs (actif, inactif, maintenance)
-- Suivi du niveau de batterie
-- Historique des calibrations
+### 📡 2. Données des Capteurs
+- **Collecte multi-capteurs** : température, humidité, CO2, luminosité, mouvement
+- **Monitoring d'état** : actif, inactif, maintenance, défaillant
+- **Suivi batterie** : alertes niveau faible
+- **Historique calibrations** : traçabilité complète
+- **Analyse de dérives** : détection d'anomalies
+- **Géolocalisation** : position par bâtiment/zone/étage
 
-### 3. Consommation Énergétique
-- Suivi de la consommation électrique, eau, gaz
-- Analyse par type (climatisation, éclairage, chauffage)
-- Calcul du coût estimé et empreinte carbone
-- Comparaison avec les périodes précédentes
+### ⚡ 3. Consommation Énergétique
+- **Multi-énergies** : électricité, eau, gaz
+- **Typologie détaillée** : climatisation, éclairage, chauffage, équipements
+- **Calcul coûts** : estimation en euros
+- **Empreinte carbone** : CO2 équivalent en kg
+- **Comparaisons temporelles** : jour/semaine/mois
+- **Détection surconsommation** : alertes automatiques
 
-### 4. Occupation des Salles
-- Monitoring de l'occupation en temps réel
-- Gestion des réservations et événements
-- Calcul du taux d'utilisation
-- Suivi des équipements utilisés
+### 👥 4. Occupation des Salles
+- **Temps réel** : monitoring instantané
+- **Réservations** : gestion complète des événements
+- **Taux d'utilisation** : statistiques d'occupation
+- **Équipements** : suivi des ressources utilisées
+- **Capacité vs utilisation** : optimisation de l'espace
+- **Prédictions** : analyse des tendances
 
-### 5. Maintenance Préventive
-- Planification des interventions de maintenance
-- Prédiction des pannes
-- Suivi de la durée de vie des équipements
-- Gestion des coûts de maintenance
+### 🔧 5. Maintenance Préventive
+- **Planification** : interventions programmées
+- **Prédiction pannes** : ML sur historique
+- **Durée de vie** : suivi équipements
+- **Coûts maintenance** : budget et prévisions
+- **Prioritisation** : par criticité
+- **Historique complet** : traçabilité interventions
+
+### 🔍 6. Recherche Elasticsearch
+- **Full-text search** sur tous les champs
+- **Recherche floue** : tolérance aux fautes
+- **Filtres multiples** : combinaison de critères
+- **Agrégations** : statistiques en temps réel
+- **Tri dynamique** : par score, date, valeur
+- **Pagination** : navigation efficace
+
+### 📊 7. Interface Angular Moderne
+- **Upload drag & drop** : fichiers CSV/JSON
+- **Détection automatique** du type de données
+- **Dashboard interactif** : statistiques en temps réel
+- **Recherche avancée** : interface intuitive
+- **Top 3 résultats** : mise en évidence (🥇🥈🥉)
+- **Refresh automatique** : après upload
+- **Kibana intégré** : iframe sécurisée
+
+---
 
 ## 📦 Prérequis
+
+### Logiciels requis
 
 - **Docker** (version 20.10+)
 - **Docker Compose** (version 2.0+)
 - **Git**
-- **Node.js 18+** et **npm** (pour le développement Angular)
+- **Node.js 18+** et **npm** (optionnel, pour dev Angular local)
+- **Python 3.11+** (optionnel, pour dev Django local)
+
+### Ressources système recommandées
+
+- **RAM** : 8 GB minimum (16 GB recommandé)
+- **CPU** : 4 cœurs minimum
+- **Disque** : 10 GB d'espace libre
+- **Réseau** : Connexion internet (première installation)
 - **Python 3.11+** (pour le développement Django)
 
 ### Ports requis

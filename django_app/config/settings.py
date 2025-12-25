@@ -135,7 +135,7 @@ ELASTICSEARCH_PORT = int(os.getenv('ELASTICSEARCH_PORT', 9200))
 ELASTICSEARCH_URL = f'http://{ELASTICSEARCH_HOST}:{ELASTICSEARCH_PORT}'
 
 ELASTICSEARCH_INDEX = {
-    'IOT_DATA': 'iot-data-debug',
+    'IOT_DATA': 'iot-*',
     'SENSORS': 'sensors-*',
     'VEHICLES': 'vehicles-*',
 }

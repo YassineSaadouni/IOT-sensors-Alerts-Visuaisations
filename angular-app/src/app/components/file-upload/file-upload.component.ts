@@ -32,7 +32,11 @@ export class FileUploadComponent implements OnInit {
   loadingHistory = false;
 
   // Statistics
-  stats: any = null;
+  stats: any = {
+    total_uploads: 0,
+    by_file_type: [],
+    by_data_type: []
+  };
 
   constructor(private fileUploadService: FileUploadService) {}
 
@@ -159,11 +163,12 @@ export class FileUploadComponent implements OnInit {
     this.loadingHistory = true;
     this.fileUploadService.getRecentUploads().subscribe({
       next: (response) => {
-        this.history = response.uploads;
+        this.history = response?.uploads || [];
         this.loadingHistory = false;
       },
       error: (error) => {
         console.error('Error loading history:', error);
+        this.history = [];
         this.loadingHistory = false;
       }
     });
@@ -172,10 +177,11 @@ export class FileUploadComponent implements OnInit {
   loadStats(): void {
     this.fileUploadService.getUploadStats().subscribe({
       next: (stats) => {
-        this.stats = stats;
+        this.stats = stats || { total_uploads: 0, by_file_type: [], by_data_type: [] };
       },
       error: (error) => {
         console.error('Error loading stats:', error);
+        this.stats = { total_uploads: 0, by_file_type: [], by_data_type: [] };
       }
     });
   }

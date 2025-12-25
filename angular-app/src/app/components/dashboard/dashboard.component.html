@@ -104,43 +104,8 @@
   </div>
 
   <!-- Source Files Table -->
-  <div class="card" *ngIf="stats && !loading">
-    <div class="card-header">📂 Fichiers Sources</div>
-    <table>
-      <thead>
-        <tr>
-          <th>Fichier</th>
-          <th>Nombre de Documents</th>
-          <th>Pourcentage</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of stats.by_source_file">
-          <td>{{ item.key }}</td>
-          <td>{{ item.count }}</td>
-          <td>
-            <div class="progress-bar">
-              <div class="progress" [style.width.%]="(item.count / stats.total_documents) * 100"></div>
-            </div>
-            {{ ((item.count / stats.total_documents) * 100).toFixed(1) }}%
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+
 
   <!-- Timeline -->
-  <div class="card" *ngIf="stats && stats.upload_timeline && stats.upload_timeline.length > 0 && !loading">
-    <div class="card-header">📅 Timeline des Uploads</div>
-    <div class="timeline-chart">
-      <div *ngFor="let item of stats.upload_timeline" class="timeline-item">
-        <div class="timeline-date">{{ item.date | date:'short' }}</div>
-        <div class="timeline-bar-wrapper">
-          <div class="timeline-bar" [style.width.%]="getTimelineWidth(item.count)">
-            {{ item.count }}
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  
 </div>

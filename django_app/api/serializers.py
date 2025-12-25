@@ -96,7 +96,7 @@ class SearchRequestSerializer(serializers.Serializer):
     """Serializer pour les requêtes de recherche"""
     
     query = serializers.CharField(required=False, allow_blank=True)
-    index = serializers.CharField(required=False, default='iot-data-debug')
+    index = serializers.CharField(required=False, allow_blank=True, default=None)
     size = serializers.IntegerField(required=False, default=50, min_value=1, max_value=10000)
     from_offset = serializers.IntegerField(required=False, default=0, min_value=0)
     
@@ -123,7 +123,7 @@ class SearchRequestSerializer(serializers.Serializer):
 class AggregationRequestSerializer(serializers.Serializer):
     """Serializer pour les requêtes d'agrégation"""
     
-    index = serializers.CharField(required=False, default='iot-data-debug')
+    index = serializers.CharField(required=False, allow_blank=True, default=None)
     field = serializers.CharField(required=True)
     agg_type = serializers.ChoiceField(
         choices=['terms', 'stats', 'date_histogram', 'range'],

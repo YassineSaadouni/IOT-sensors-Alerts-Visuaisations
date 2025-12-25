@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { ApiService } from '../../services/api.service';
+import { FileUploadService } from '../../services/file-upload.service';
 import { Statistics, HealthStatus } from '../../models/models';
 
 @Component({
@@ -7,16 +9,32 @@ import { Statistics, HealthStatus } from '../../models/models';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   stats: Statistics | null = null;
   health: HealthStatus | null = null;
   loading = true;
   error: string | null = null;
+  private uploadSubscription?: Subscription;
 
-  constructor(private apiService: ApiService) {}
+  constructor(
+    private apiService: ApiService,
+    private fileUploadService: FileUploadService
+  ) {}
 
   ngOnInit(): void {
     this.loadData();
+    
+    // S'abonner aux événements d'upload pour rafraîchir automatiquement
+    this.uploadSubscription = this.fileUploadService.uploadCompleted$.subscribe(() => {
+      console.log('Upload détecté, rafraîchissement du dashboard...');
+      setTimeout(() => this.loadData(), 1000);
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.uploadSubscription) {
+      this.uploadSubscription.unsubscribe();
+    }
   }
 
   loadData(): void {

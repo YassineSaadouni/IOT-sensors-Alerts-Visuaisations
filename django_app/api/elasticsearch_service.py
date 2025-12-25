@@ -14,7 +14,19 @@ class ElasticsearchService:
     
     def __init__(self):
         self.es = Elasticsearch([settings.ELASTICSEARCH_URL])
-        self.default_index = settings.ELASTICSEARCH_INDEX['IOT_DATA']
+        # Remove any cached default_index instance attribute
+        if 'default_index' in self.__dict__:
+            del self.__dict__['default_index']
+        logger.info(f"[INIT] ElasticsearchService created")
+        logger.info(f"[INIT] settings.ELASTICSEARCH_INDEX = {settings.ELASTICSEARCH_INDEX}")
+        logger.info(f"[INIT] IOT_DATA = {settings.ELASTICSEARCH_INDEX['IOT_DATA']}")
+    
+    @property
+    def default_index(self):
+        """Get default index dynamically from settings"""
+        index = settings.ELASTICSEARCH_INDEX['IOT_DATA']
+        logger.info(f"[DEBUG] default_index property called, returning: {index}")
+        return index
     
     def check_connection(self) -> bool:
         """Vérifier la connexion à Elasticsearch"""
@@ -69,15 +81,31 @@ class ElasticsearchService:
             Dict contenant les résultats et métadonnées
         """
         try:
-            index = index or self.default_index
+            # Use default index if not specified, handle empty string as None
+            if not index:
+                logger.info(f"[DEBUG search] index is empty/None: {repr(index)}")
+                logger.info(f"[DEBUG search] About to access self.default_index")
+                logger.info(f"[DEBUG search] self.__dict__ = {self.__dict__}")
+                logger.info(f"[DEBUG search] type(self).__dict__.keys() = {list(type(self).__dict__.keys())}")
+                index = self.default_index
+                logger.info(f"[DEBUG search] After accessing property, index = {index}")
             
             # Construction de la requête
             body = {
                 "query": self._build_query(query, filters),
                 "size": size,
-                "from": from_offset,
-                "sort": [{sort_by: {"order": sort_order}}]
+                "from": from_offset
             }
+            
+            # Si recherche textuelle, trier par score de pertinence
+            # Sinon trier par timestamp
+            if query and query.strip():
+                body["sort"] = [
+                    {"_score": {"order": "desc"}},
+                    {sort_by: {"order": sort_order}}
+                ]
+            else:
+                body["sort"] = [{sort_by: {"order": sort_order}}]
             
             logger.info(f"Recherche Elasticsearch: index={index}, query={query}, filters={filters}")
             
@@ -122,12 +150,24 @@ class ElasticsearchService:
         
         # Recherche textuelle
         if query:
+            # Cibler les champs textuels importants avec des boosts
             must_clauses.append({
                 "multi_match": {
                     "query": query,
-                    "fields": ["*"],
+                    "fields": [
+                        "batiment^3",
+                        "description^2",
+                        "type_alerte^2",
+                        "categorie^2",
+                        "salle^1.5",
+                        "zone^1.5",
+                        "statut",
+                        "severite^2",
+                        "*"
+                    ],
                     "type": "best_fields",
-                    "fuzziness": "AUTO"
+                    "fuzziness": "AUTO",
+                    "minimum_should_match": "75%"
                 }
             })
         
