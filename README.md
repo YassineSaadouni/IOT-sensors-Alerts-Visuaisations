@@ -528,15 +528,7 @@ Créer les index patterns dans Kibana :
 - `iot-occupation*`
 - `iot-maintenance*`
 
-## 🤝 Contribution
 
-Les contributions sont les bienvenues ! Veuillez suivre ces étapes :
-
-1. Fork le projet
-2. Créer une branche feature (`git checkout -b feature/AmazingFeature`)
-3. Commit les changements (`git commit -m 'Add some AmazingFeature'`)
-4. Push vers la branche (`git push origin feature/AmazingFeature`)
-5. Ouvrir une Pull Request
 
 ## 📝 License
 
@@ -553,13 +545,6 @@ Projet Big Data - Système de Gestion IoT
 - Angular Framework
 - Docker Community
 
-## 📞 Support
 
-Pour toute question ou problème :
-- Consulter la documentation dans [API_TESTING_GUIDE.md](API_TESTING_GUIDE.md)
-- Vérifier les logs des containers
-- Consulter les issues GitHub
-
----
 
 **Note**: Ce projet nécessite Docker et Docker Compose pour fonctionner. Assurez-vous que tous les ports nécessaires sont disponibles avant de démarrer les services.
