@@ -1,0 +1,120 @@
+# ================================
+# Logstash Deployment & Service
+# ================================
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: logstash-pipeline
+  namespace: iot-platform
+data:
+  redis-to-elasticsearch.conf: |
+    input {
+      redis {
+        host => "redis"
+        port => 6379
+        password => "redis_password_123"
+        data_type => "list"
+        key => "iot:data"
+        codec => json
+      }
+    }
+
+    filter {
+      # Vos filtres Logstash ici
+    }
+
+    output {
+      elasticsearch {
+        hosts => ["http://elasticsearch:9200"]
+        index => "iot-%{[data_type]}-%{+YYYY.MM.dd}"
+      }
+    }
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: logstash
+  namespace: iot-platform
+  labels:
+    app: logstash
+    component: pipeline
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: logstash
+  template:
+    metadata:
+      labels:
+        app: logstash
+        component: pipeline
+    spec:
+      containers:
+      - name: logstash
+        image: <YOUR_REGISTRY>/logstash-iot:latest
+        ports:
+        - containerPort: 5044
+          name: beats
+        - containerPort: 9600
+          name: monitoring
+        env:
+        - name: LS_JAVA_OPTS
+          value: "-Xmx512m -Xms512m"
+        - name: ELASTICSEARCH_HOST
+          value: "http://elasticsearch:9200"
+        - name: REDIS_HOST
+          value: "redis"
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: redis-secret
+              key: password
+        volumeMounts:
+        - name: pipeline
+          mountPath: /usr/share/logstash/pipeline
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "1000m"
+        livenessProbe:
+          httpGet:
+            path: /_node/stats
+            port: 9600
+          initialDelaySeconds: 90
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /_node/stats
+            port: 9600
+          initialDelaySeconds: 60
+          periodSeconds: 10
+      volumes:
+      - name: pipeline
+        configMap:
+          name: logstash-pipeline
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: logstash
+  namespace: iot-platform
+  labels:
+    app: logstash
+spec:
+  type: ClusterIP
+  ports:
+  - port: 5044
+    targetPort: 5044
+    protocol: TCP
+    name: beats
+  - port: 9600
+    targetPort: 9600
+    protocol: TCP
+    name: monitoring
+  selector:
+    app: logstash

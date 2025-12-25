@@ -1,0 +1,26 @@
+# Angular Development Dockerfile
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Installer les dépendances globalement
+RUN npm install -g @angular/cli
+
+# Copier package.json
+COPY package*.json ./
+
+# Installer les dépendances
+RUN npm install
+
+# Copier le code source
+COPY . .
+
+# Exposer le port de dev
+EXPOSE 4200
+
+# Healthcheck
+HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
+    CMD wget --quiet --tries=1 --spider http://localhost:4200/ || exit 1
+
+# Démarrer le serveur de développement
+CMD ["npm", "start", "--", "--host", "0.0.0.0", "--poll", "2000"]

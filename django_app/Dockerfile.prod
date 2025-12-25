@@ -1,0 +1,47 @@
+# Production Django Dockerfile avec Gunicorn
+FROM python:3.11-slim
+
+LABEL maintainer="Projet Big Data IoT"
+LABEL description="Django REST API avec Gunicorn pour production"
+
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PIP_NO_CACHE_DIR=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1 \
+    DJANGO_SETTINGS_MODULE=config.settings
+
+WORKDIR /app
+
+# Installer dépendances système
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc \
+    postgresql-client \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copier et installer dépendances
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt gunicorn
+
+# Copier l'application
+COPY . .
+
+# Créer répertoires nécessaires
+RUN mkdir -p /app/media /app/logs /app/static && \
+    chmod -R 755 /app/media /app/logs /app/static
+
+# Collecter fichiers statiques
+RUN python manage.py collectstatic --noinput --clear
+
+# Utilisateur non-root
+RUN useradd -m -u 1000 django && \
+    chown -R django:django /app
+USER django
+
+EXPOSE 8000
+
+# Healthcheck
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+    CMD python -c "import requests; requests.get('http://localhost:8000/api/health/', timeout=5)"
+
+# Gunicorn pour production
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "4", "--timeout", "120", "config.wsgi:application"]
